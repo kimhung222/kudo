@@ -2,23 +2,27 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import { Root } from './components/Layout'
-import { ErrorPage, GreetingPage, KudoPage } from './pages'
 import { AuthProvider } from './context/auth.context'
+import { ErrorPage } from './pages/Error'
+import { GreetingPage } from './pages/Greeting'
+import { KudoPage } from './pages/Kudo'
+import { HomePage } from './pages'
+
+import '@unocss/reset/tailwind.css'
+import 'virtual:uno.css'
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Root />,
+    element: <HomePage />,
     errorElement: <ErrorPage />,
-    children: [
-      { path: '/greeting', element: <GreetingPage /> },
-      { path: '/kudo', element: <KudoPage /> },
-    ],
   },
+  { path: '/greeting', element: <GreetingPage />, errorElement: <ErrorPage /> },
+  { path: '/kudo', element: <KudoPage />, errorElement: <ErrorPage /> },
 ])
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+const mountPoint = document.querySelector('#root') as HTMLElement
+ReactDOM.createRoot(mountPoint).render(
   <AuthProvider>
     <RouterProvider router={router} />
   </AuthProvider>,
