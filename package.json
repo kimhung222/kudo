@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "5.15.3",
     "@headlessui/react": "^1.7.7",
     "@heroicons/react": "^2.0.13",
     "@vitejs/plugin-react": "^3.0.0",
