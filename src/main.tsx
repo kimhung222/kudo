@@ -4,6 +4,7 @@ import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Root } from "./components/Layout";
 import { ErrorPage, GreetingPage, KudoPage } from "./pages";
+import { CreateKudoPage } from "./pages/Kudo/create";
 
 const router = createBrowserRouter([
   {
@@ -13,6 +14,7 @@ const router = createBrowserRouter([
     children: [
       { path: "/greeting", element: <GreetingPage /> },
       { path: "/kudo", element: <KudoPage /> },
+      { path: "/kudo/create", element: <CreateKudoPage /> },
     ],
   },
 ]);
