@@ -6,10 +6,12 @@ import { ErrorPage } from './pages/Error'
 import { GreetingPage } from './pages/Greeting'
 import { KudoPage } from './pages/Kudo'
 import { HomePage } from './pages/Home/Home'
+import { routePaths } from './libs/routePaths'
+import { GMLayout } from './components/Layout/GMLayout'
+import { AdminDashboard } from './pages/AdminDashboard'
 
 import '@unocss/reset/tailwind.css'
 import 'virtual:uno.css'
-import { routePaths } from './libs/routePaths'
 
 const router = createBrowserRouter([
   {
@@ -19,6 +21,17 @@ const router = createBrowserRouter([
   },
   { path: routePaths.greeting, element: <GreetingPage />, errorElement: <ErrorPage /> },
   { path: routePaths.kudo, element: <KudoPage />, errorElement: <ErrorPage /> },
+  {
+    path: routePaths.adminDashboard,
+    element: <GMLayout />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: '/admin-dashboard/',
+        element: <AdminDashboard />,
+      },
+    ],
+  },
 ])
 
 const mountPoint = document.querySelector('#root') as HTMLElement
