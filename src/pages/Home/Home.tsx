@@ -32,7 +32,7 @@ export const HomePage: React.FC = () => {
   }, [overlayPathRef])
 
   return (
-    <main className="relative grid grid-cols-[100%] grid-rows-[100vh] bg-#0c0c0d">
+    <main className="relative grid grid-cols-[100%] grid-rows-[100vh] bg-[#0c0c0d]">
       <ul className="noel-neon-light">
         {Array.from({ length: LIGHT_BULB_COUNT }).map((_, index) => (
           <li key={index}></li>
