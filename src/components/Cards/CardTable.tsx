@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { onValue, ref } from "firebase/database";
+import { realtimeDB } from "../../libs/firebase";
 
 // components
 
 
 export default function CardTable({ color }) {
+  const [data, setData] = useState({});
+  useEffect(() => {
+    const userRef = ref(realtimeDB, 'users');
+    console.log('vccc')
+
+    onValue(userRef, (snapshot) => {
+      setData(snapshot.val());
+    })
+  }, []);
   return (
     <>
       <div
@@ -64,151 +75,47 @@ export default function CardTable({ color }) {
             </tr>
             </thead>
             <tbody>
-            <tr>
-              <th
-                className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center">
-                <img
-                  src="assets/img/bootstrap.jpg"
-                  className="h-12 w-12 bg-white rounded-full border"
-                  alt="..."
-                ></img>{ " " }
-                <span
-                  className={
-                    "ml-3 font-bold " +
-                    +(color === "light" ? "text-blueGray-600" : "text-white")
-                  }
-                >
-                    Anh la Linh
+            { Object.values(data).map((item, index) => {
+              console.log(item, index)
+              return (
+                <tr>
+                  <th
+                    className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center">
+                    {/*<img*/ }
+                    {/*  src="assets/img/bootstrap.jpg"*/ }
+                    {/*  className="h-12 w-12 bg-white rounded-full border"*/ }
+                    {/*  alt="..."*/ }
+                    {/*></img>{ " " }*/ }
+                    <span
+                      className={
+                        "ml-3 font-bold " +
+                        +(color === "light" ? "text-blueGray-600" : "text-white")
+                      }
+                    >
+                    { item?.userId || 'user không xác định' }
                   </span>
-              </th>
-              <td
-                className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                <i className="fas fa-circle text-orange-500 mr-2"></i> pending
-              </td>
-              <td
-                className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                <div className="flex items-center">
-                  <span className="mr-2">60%</span>
-                  <div className="relative w-full">
-                    <div className="overflow-hidden h-2 text-xs flex rounded bg-red-200">
-                      <div
-                        style={ { width: "60%" } }
-                        className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"
-                      ></div>
+                  </th>
+                  <td
+                    className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                    <i className="fas fa-circle text-orange-500 mr-2"></i> pending
+                  </td>
+                  <td
+                    className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                    <div className="flex items-center">
+                      <span className="mr-2">60%</span>
+                      <div className="relative w-full">
+                        <div className="overflow-hidden h-2 text-xs flex rounded bg-red-200">
+                          <div
+                            style={ { width: "60%" } }
+                            className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"
+                          ></div>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <th
-                className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center">
-                <img
-                  src="assets/img/angular.jpg"
-                  className="h-12 w-12 bg-white rounded-full border"
-                  alt="..."
-                ></img>{ " " }
-                <span
-                  className={
-                    "ml-3 font-bold " +
-                    +(color === "light" ? "text-blueGray-600" : "text-white")
-                  }
-                >
-                    Nhạt
-                  </span>
-              </th>
-              <td
-                className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                <i className="fas fa-circle text-emerald-500 mr-2"></i>{ " " }
-                completed
-              </td>
-              <td
-                className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                <div className="flex items-center">
-                  <span className="mr-2">100%</span>
-                  <div className="relative w-full">
-                    <div className="overflow-hidden h-2 text-xs flex rounded bg-emerald-200">
-                      <div
-                        style={ { width: "100%" } }
-                        className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-emerald-500"
-                      ></div>
-                    </div>
-                  </div>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <th
-                className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center">
-                <img
-                  src="assets/img/sketch.jpg"
-                  className="h-12 w-12 bg-white rounded-full border"
-                  alt="..."
-                ></img>{ " " }
-                <span
-                  className={
-                    "ml-3 font-bold " +
-                    +(color === "light" ? "text-blueGray-600" : "text-white")
-                  }
-                >
-                    Hưng Hưng
-                  </span>
-              </th>
-              <td
-                className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                <i className="fas fa-circle text-red-500 mr-2"></i> ready
-              </td>
-              <td
-                className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                <div className="flex items-center">
-                  <span className="mr-2">73%</span>
-                  <div className="relative w-full">
-                    <div className="overflow-hidden h-2 text-xs flex rounded bg-red-200">
-                      <div
-                        style={ { width: "73%" } }
-                        className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"
-                      ></div>
-                    </div>
-                  </div>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <th
-                className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center">
-                <img
-                  src="assets/img/react.jpg"
-                  className="h-12 w-12 bg-white rounded-full border"
-                  alt="..."
-                ></img>{ " " }
-                <span
-                  className={
-                    "ml-3 font-bold " +
-                    +(color === "light" ? "text-blueGray-600" : "text-white")
-                  }
-                >
-                    Hieu Tran
-                  </span>
-              </th>
-              <td
-                className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                <i className="fas fa-circle text-teal-500 mr-2"></i> completed
-              </td>
-              <td
-                className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                <div className="flex items-center">
-                  <span className="mr-2">90%</span>
-                  <div className="relative w-full">
-                    <div className="overflow-hidden h-2 text-xs flex rounded bg-teal-200">
-                      <div
-                        style={ { width: "90%" } }
-                        className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-teal-500"
-                      ></div>
-                    </div>
-                  </div>
-                </div>
-              </td>
-            </tr>
+                  </td>
+                </tr>
+              )
+            }) }
             </tbody>
           </table>
         </div>

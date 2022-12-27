@@ -1,9 +1,11 @@
 import gsap from 'gsap'
-import React, { MutableRefObject, PropsWithChildren, useState } from 'react'
+import React, { MutableRefObject, PropsWithChildren, useContext, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { routePaths } from '../../libs/routePaths'
 
 import './ButtonGameStart.scss'
+import { writeUserData } from "../../libs/database";
+import { AuthContext } from "../../context/auth.provider";
 
 // paths
 // edit here: https://yqnn.github.io/svg-path-editor/
@@ -33,9 +35,12 @@ type Props = {
 export const ButtonGameStart: React.FC<PropsWithChildren<Props>> = ({ children, overlayPath }) => {
   const [isAnimating, setIsAnimating] = useState(false)
   const [page, setPage] = useState(1)
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const context = useContext(AuthContext);
+  debugger;
   const handleXyz = () => {
-    navigate(routePaths.greeting)
+    navigate(routePaths.greeting);
+    writeUserData(context.user.uid);
   }
 
   const pageSwitchTimeline = gsap
@@ -97,7 +102,7 @@ export const ButtonGameStart: React.FC<PropsWithChildren<Props>> = ({ children, 
 
   return (
     <div className="flex-center mt-40">
-      <button data-testid="btn-start-random-question" className="text-white" onClick={handleXyz}>
+      <button data-testid="btn-start-random-question" className="text-white" onClick={ handleXyz }>
         <div className="cute-cube-rotate-infinite mb-2">
           <div className="green"></div>
           <div className="pink"></div>
