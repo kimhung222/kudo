@@ -12,6 +12,8 @@ const firebaseConfig = {
   measurementId: 'G-BVHEETP04B',
 }
 
+export const reg_token = 'fp_Wu9BCP3HEhhoL59A8Hr:APA91bEl5y9Dkdhk4Ul_sz9NYPflh7jxN8yOLNHlCrkpcaDg03OzP_k3R19GCFt9TdvCWQvPCdph9i4Yb2j5n_3qST7pmLEyb4I1ZAY-s7cgxUGwV3rKeu-89Oe75yz22wS1P6ybhkYc';
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig)
 
