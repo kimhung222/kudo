@@ -1,4 +1,4 @@
-import React, { LegacyRef, MutableRefObject, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import '../../styles/home.css'
 import '../../styles/home.scss'
 import { ButtonGameStart } from './ButtonGameStart'
@@ -46,7 +46,12 @@ export const HomePage: React.FC = () => {
         {/** @ts-expect-error Ignore type check */}
         {hadOverlay && <ButtonGameStart overlayPath={overlayPathRef?.current} />}
       </div>
-      <div className="absolute bottom-0 left-0 w-full h-200px bg-noel"></div>
+      <div
+        className="absolute bottom-0 left-0 w-full h-200px bg-noel"
+        style={{
+          clipPath: 'polygon(0 65%, 100% 39%, 100% 100%, 0% 100%)',
+        }}
+      ></div>
       <svg
         id="overlay"
         className="z-1000 relative pointer-events-none w-full h-full"

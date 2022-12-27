@@ -7,6 +7,7 @@ import {
   transformerVariantGroup,
 } from 'unocss'
 import { presetScrollbar } from 'unocss-preset-scrollbar'
+import { presetForms } from '@julr/unocss-preset-forms'
 
 const COLORS = {
   brand: {
@@ -144,6 +145,7 @@ export default defineConfig({
   transformers: [transformerDirectives(), transformerVariantGroup(), transformerCompileClass()],
   presets: [
     presetUno(),
+    presetForms(),
     presetScrollbar(),
     presetIcons({
       extraProperties: {
