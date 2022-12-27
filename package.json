@@ -24,6 +24,7 @@
     "react-router-dom": "^6.5.0"
   },
   "devDependencies": {
+    "@julr/unocss-preset-forms": "0.0.2",
     "@types/react": "^18.0.26",
     "@types/react-dom": "^18.0.9",
     "fontaine": "^0.2.3",
