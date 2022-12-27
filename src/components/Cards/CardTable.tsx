@@ -9,8 +9,6 @@ export default function CardTable({ color }) {
   const [data, setData] = useState({});
   useEffect(() => {
     const userRef = ref(realtimeDB, 'users');
-    console.log('vccc')
-
     onValue(userRef, (snapshot) => {
       setData(snapshot.val());
     })

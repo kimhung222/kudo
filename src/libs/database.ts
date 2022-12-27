@@ -6,3 +6,7 @@ export function writeUserData(userId: string) {
     userId
   })
 }
+
+export function updateGame(value: number) {
+  set(ref(realtimeDB, 'currentGame'), value);
+}

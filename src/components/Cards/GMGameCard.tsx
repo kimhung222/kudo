@@ -1,6 +1,10 @@
 import React from "react";
+import { updateGame } from "../../libs/database";
 
-export const GMGameCard = ({ statSubtitle, statTitle }) => {
+export const GMGameCard = ({ statSubtitle, statTitle, isPlaying, id }) => {
+  const onClick = () => {
+    updateGame(isPlaying ? 0 : id);
+  }
   return (
     <>
       <div
@@ -30,7 +34,11 @@ export const GMGameCard = ({ statSubtitle, statTitle }) => {
           <p className="text-sm text-blueGray-400 mt-4">
             <button
               className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-              type="button">Start
+              type="button"
+              onClick={ onClick }
+              style={ { background: isPlaying ? 'red' : '' } }
+            >
+              { isPlaying ? 'Finish' : 'Start' }
             </button>
           </p>
         </div>
