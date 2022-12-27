@@ -21,13 +21,18 @@ export const HomePage: React.FC = () => {
   }, [overlayPathRef])
 
   return (
-    <main className="relative h-screen">
+    <main className="relative grid grid-cols-[100%] grid-rows-[100vh]">
       <ul className="noel-neon-light">
         {Array.from({ length: LIGHT_BULB_COUNT }).map((_, index) => (
           <li key={index}></li>
         ))}
       </ul>
-      <div className="rounded pt-20 px-4">
+      <div
+        className="rounded pt-20 px-4"
+        style={{
+          gridArea: '1 / 1 / 2 / 2',
+        }}
+      >
         <div className="text-white font-bold text-4xl text-center mb-4">
           {helloCharts.map((c, id) => (
             <span key={id}>{c}</span>
@@ -43,9 +48,13 @@ export const HomePage: React.FC = () => {
       </div>
       <div className="absolute bottom-0 left-0 w-full h-200px bg-noel"></div>
       <svg
-        className="overlay relative pointer-events-none w-full h-full"
+        id="overlay"
+        className="z-1000 relative pointer-events-none w-full h-full"
         viewBox="0 0 100 100"
         preserveAspectRatio="none"
+        style={{
+          gridArea: '1 / 1 / 2 / 2',
+        }}
       >
         <path
           ref={overlayPathRef}
