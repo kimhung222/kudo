@@ -12,6 +12,7 @@ import { routePaths } from "./libs/routePaths";
 import { GMLayout } from "./components/Layout/GMLayout";
 import { AdminDashboard } from "./pages/AdminDashboard";
 
+import "@fortawesome/fontawesome-free/css/all.min.css";
 import "@unocss/reset/tailwind.css";
 import "virtual:uno.css";
 import { MyMemories } from "./pages/Memories/MyMemories";
@@ -20,43 +21,43 @@ import { TechiesMemories } from "./pages/Memories/TechiesMemories/TechiesMemorie
 const router = createBrowserRouter([
   {
     path: routePaths.home,
-    element: <HomePage />,
-    errorElement: <ErrorPage />,
+    element: <HomePage/>,
+    errorElement: <ErrorPage/>,
   },
   {
     path: routePaths.greeting,
-    element: <GreetingPage />,
-    errorElement: <ErrorPage />,
+    element: <GreetingPage/>,
+    errorElement: <ErrorPage/>,
   },
-  { path: routePaths.kudo, element: <KudoPage />, errorElement: <ErrorPage /> },
+  { path: routePaths.kudo, element: <KudoPage/>, errorElement: <ErrorPage/> },
   {
     path: routePaths.createKudo,
-    element: <CreateKudoPage />,
-    errorElement: <ErrorPage />,
+    element: <CreateKudoPage/>,
+    errorElement: <ErrorPage/>,
   },
   {
     path: routePaths.createKudoSuccess,
-    element: <CreateKudoSuccessPage />,
-    errorElement: <ErrorPage />,
+    element: <CreateKudoSuccessPage/>,
+    errorElement: <ErrorPage/>,
   },
   {
     path: routePaths.myMemories,
-    element: <MyMemories />,
-    errorElement: <ErrorPage />,
+    element: <MyMemories/>,
+    errorElement: <ErrorPage/>,
   },
   {
     path: routePaths.techiesMemories,
-    element: <TechiesMemories />,
-    errorElement: <ErrorPage />,
+    element: <TechiesMemories/>,
+    errorElement: <ErrorPage/>,
   },
   {
     path: routePaths.adminDashboard,
-    element: <GMLayout />,
-    errorElement: <ErrorPage />,
+    element: <GMLayout/>,
+    errorElement: <ErrorPage/>,
     children: [
       {
         path: "/admin-dashboard/",
-        element: <AdminDashboard />,
+        element: <AdminDashboard/>,
       },
     ],
   },
@@ -65,6 +66,6 @@ const router = createBrowserRouter([
 const mountPoint = document.querySelector("#root") as HTMLElement;
 ReactDOM.createRoot(mountPoint).render(
   <AuthProvider>
-    <RouterProvider router={router} />
+    <RouterProvider router={ router }/>
   </AuthProvider>
 );

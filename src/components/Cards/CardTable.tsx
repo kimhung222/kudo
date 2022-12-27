@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { onValue, ref } from "firebase/database";
 import { realtimeDB } from "../../libs/firebase";
+import { users } from "../../constants";
 
 // components
 
@@ -58,7 +59,7 @@ export default function CardTable({ color }) {
                     : "bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700")
                 }
               >
-                Status
+                Assignee
               </th>
               <th
                 className={
@@ -68,7 +69,7 @@ export default function CardTable({ color }) {
                     : "bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700")
                 }
               >
-                Completion
+                Says
               </th>
             </tr>
             </thead>
@@ -76,7 +77,7 @@ export default function CardTable({ color }) {
             { Object.values(data).map((item, index) => {
               console.log(item, index)
               return (
-                <tr>
+                <tr key={ index }>
                   <th
                     className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center">
                     {/*<img*/ }
@@ -95,21 +96,21 @@ export default function CardTable({ color }) {
                   </th>
                   <td
                     className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                    <i className="fas fa-circle text-orange-500 mr-2"></i> pending
+                    { item?.assign?.map((a, i) => {
+                      const user = users[a];
+                      return (
+                        <p key={ `as_${ i }` }>{ user?.name }</p>
+                      )
+                    }) }
                   </td>
                   <td
                     className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                    <div className="flex items-center">
-                      <span className="mr-2">60%</span>
-                      <div className="relative w-full">
-                        <div className="overflow-hidden h-2 text-xs flex rounded bg-red-200">
-                          <div
-                            style={ { width: "60%" } }
-                            className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"
-                          ></div>
-                        </div>
-                      </div>
-                    </div>
+                    { item?.assign?.map((a, i) => {
+                      const user = users[a];
+                      return (
+                        <p key={ `as_${ i }` }>{ user?.name }</p>
+                      )
+                    }) }
                   </td>
                 </tr>
               )
