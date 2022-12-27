@@ -1,13 +1,21 @@
 import React from "react";
 import { updateGame } from "../../libs/database";
 
-export const GMGameCard = ({ statSubtitle, statTitle, isPlaying, id, onStart }) => {
+export const GMGameCard = ({
+                             statSubtitle,
+                             statTitle,
+                             isPlaying,
+                             id,
+                             onStart,
+                             btnStartText = 'Start'
+                           }) => {
   const onClick = () => {
     updateGame(isPlaying ? 0 : id);
     if (!isPlaying && onStart) {
       onStart();
     }
   }
+
   return (
     <>
       <div
@@ -41,7 +49,7 @@ export const GMGameCard = ({ statSubtitle, statTitle, isPlaying, id, onStart }) 
               onClick={ onClick }
               style={ { background: isPlaying ? 'red' : '' } }
             >
-              { isPlaying ? 'Finish' : 'Start' }
+              { isPlaying ? 'Finish' : btnStartText }
             </button>
           </p>
         </div>

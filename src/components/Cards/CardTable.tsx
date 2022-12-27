@@ -49,7 +49,7 @@ export default function CardTable({ color }) {
                     : "bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700")
                 }
               >
-                Name
+                User
               </th>
               <th
                 className={

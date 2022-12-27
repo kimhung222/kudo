@@ -54,6 +54,7 @@ export const GMHeader = () => {
                   isPlaying={ currentGame === 1 }
                   id={ 1 }
                   onStart={ handleGame1Start }
+                  btnStartText="Distribute"
                 />
               </div>
               <div className="w-full lg:w-6/12 xl:w-3/12 px-4 !all:mb-0">
