@@ -37,7 +37,6 @@ export const ButtonGameStart: React.FC<PropsWithChildren<Props>> = ({ children, 
   const [page, setPage] = useState(1)
   const navigate = useNavigate();
   const context = useContext(AuthContext);
-  debugger;
   const handleXyz = () => {
     navigate(routePaths.greeting);
     writeUserData(context.user.uid);

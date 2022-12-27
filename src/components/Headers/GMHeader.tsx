@@ -5,8 +5,8 @@ import { GMGameCard } from "../Cards/GMGameCard";
 import { onValue, ref } from "firebase/database";
 import { realtimeDB } from "../../libs/firebase";
 import { users } from "../../constants";
-import { writeUserData } from "../../libs/database";
 import { AuthContext } from "../../context/auth.provider";
+import { writeUserData } from "../../libs/database";
 
 export const GMHeader = () => {
   const [data, setData] = useState({});
@@ -22,7 +22,7 @@ export const GMHeader = () => {
       setCurrentGame(snapshot.val());
     });
   }, []);
-  const game1Count = Object.keys(data)?.length || 0;
+  const userJoinedCount = Object.keys(data)?.length || 0;
 
   const getRandomInt = (max: number) => {
     return Math.floor(Math.random() * max)
@@ -50,7 +50,7 @@ export const GMHeader = () => {
               <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
                 <GMGameCard
                   statSubtitle="Game 1"
-                  statTitle={ game1Count }
+                  statTitle={ userJoinedCount }
                   isPlaying={ currentGame === 1 }
                   id={ 1 }
                   onStart={ handleGame1Start }
@@ -59,7 +59,7 @@ export const GMHeader = () => {
               <div className="w-full lg:w-6/12 xl:w-3/12 px-4 !all:mb-0">
                 <GMGameCard
                   statSubtitle="NEW USERS"
-                  statTitle="2,356"
+                  statTitle={ userJoinedCount }
                   isPlaying={ currentGame === 2 }
                   id={ 2 }
                 />
