@@ -3,4 +3,6 @@ export const routePaths = {
   greeting: '/greeting',
   kudo: '/kudo',
   adminDashboard: '/admin-dashboard',
+  myMemories: '/me/memories',
+  techiesMemories: '/techies/memories',
 }

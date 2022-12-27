@@ -12,6 +12,8 @@ import { AdminDashboard } from './pages/AdminDashboard'
 
 import '@unocss/reset/tailwind.css'
 import 'virtual:uno.css'
+import { MyMemories } from './pages/Memories/MyMemories'
+import { TechiesMemories } from './pages/Memories/TechiesMemories/TechiesMemories'
 
 const router = createBrowserRouter([
   {
@@ -21,6 +23,8 @@ const router = createBrowserRouter([
   },
   { path: routePaths.greeting, element: <GreetingPage />, errorElement: <ErrorPage /> },
   { path: routePaths.kudo, element: <KudoPage />, errorElement: <ErrorPage /> },
+  { path: routePaths.myMemories, element: <MyMemories />, errorElement: <ErrorPage /> },
+  { path: routePaths.techiesMemories, element: <TechiesMemories />, errorElement: <ErrorPage /> },
   {
     path: routePaths.adminDashboard,
     element: <GMLayout />,
