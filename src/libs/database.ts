@@ -1,9 +1,10 @@
 import { ref, set } from 'firebase/database';
 import { realtimeDB } from "./firebase";
 
-export function writeUserData(userId: string) {
+export function writeUserData(userId: string, assign?: number[]) {
   set(ref(realtimeDB, 'users/' + userId), {
-    userId
+    userId,
+    assign,
   })
 }
 

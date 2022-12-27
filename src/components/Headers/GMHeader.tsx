@@ -1,13 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 // components
 import { GMGameCard } from "../Cards/GMGameCard";
 import { onValue, ref } from "firebase/database";
 import { realtimeDB } from "../../libs/firebase";
+import { users } from "../../constants";
+import { writeUserData } from "../../libs/database";
+import { AuthContext } from "../../context/auth.provider";
 
 export const GMHeader = () => {
   const [data, setData] = useState({});
   const [currentGame, setCurrentGame] = useState(0);
+  const context = useContext(AuthContext);
   useEffect(() => {
     const userRef = ref(realtimeDB, 'users');
     const gameStateRef = ref(realtimeDB, 'currentGame');
@@ -15,12 +19,26 @@ export const GMHeader = () => {
       setData(snapshot.val());
     });
     onValue(gameStateRef, (snapshot) => {
-      console.log(snapshot.val());
       setCurrentGame(snapshot.val());
     });
   }, []);
   const game1Count = Object.keys(data)?.length || 0;
-  console.log(currentGame)
+
+  const getRandomInt = (max: number) => {
+    return Math.floor(Math.random() * max)
+  }
+
+  const handleGame1Start = () => {
+    const usersLength = users.length;
+    Object.values(data).forEach(user => {
+      const number1 = getRandomInt(usersLength);
+      let number2 = getRandomInt(usersLength);
+      while (number2 === number1) number2 = getRandomInt(usersLength);
+      const assign = [number1, number2];
+      writeUserData(context.user.uid, assign);
+    })
+  }
+
   return (
     <>
       {/* Header */ }
@@ -35,6 +53,7 @@ export const GMHeader = () => {
                   statTitle={ game1Count }
                   isPlaying={ currentGame === 1 }
                   id={ 1 }
+                  onStart={ handleGame1Start }
                 />
               </div>
               <div className="w-full lg:w-6/12 xl:w-3/12 px-4 !all:mb-0">

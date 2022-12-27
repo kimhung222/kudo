@@ -1,9 +1,12 @@
 import React from "react";
 import { updateGame } from "../../libs/database";
 
-export const GMGameCard = ({ statSubtitle, statTitle, isPlaying, id }) => {
+export const GMGameCard = ({ statSubtitle, statTitle, isPlaying, id, onStart }) => {
   const onClick = () => {
     updateGame(isPlaying ? 0 : id);
+    if (!isPlaying && onStart) {
+      onStart();
+    }
   }
   return (
     <>
