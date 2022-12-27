@@ -1,7 +1,6 @@
 import gsap from 'gsap'
-import React, { LegacyRef, MutableRefObject, PropsWithChildren, useState } from 'react'
+import React, { MutableRefObject, PropsWithChildren, useState } from 'react'
 import { useNavigate } from 'react-router'
-import { useAuth } from '../../context/auth.provider'
 import { routePaths } from '../../libs/routePaths'
 
 import './ButtonGameStart.scss'
@@ -34,10 +33,9 @@ type Props = {
 export const ButtonGameStart: React.FC<PropsWithChildren<Props>> = ({ children, overlayPath }) => {
   const [isAnimating, setIsAnimating] = useState(false)
   const [page, setPage] = useState(1)
-  const { user } = useAuth()
   const navigate = useNavigate()
   const handleXyz = () => {
-    reveal()
+    navigate(routePaths.greeting)
   }
 
   const pageSwitchTimeline = gsap

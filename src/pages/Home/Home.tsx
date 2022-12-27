@@ -1,4 +1,4 @@
-import React, { LegacyRef, MutableRefObject, useEffect, useRef } from 'react'
+import React, { LegacyRef, MutableRefObject, useEffect, useRef, useState } from 'react'
 import '../../styles/home.css'
 import '../../styles/home.scss'
 import { ButtonGameStart } from './ButtonGameStart'
@@ -11,11 +11,15 @@ export const HomePage: React.FC = () => {
     'Nơi trao nhau những lời góp ý, yêu thương, với hy vọng mọi người sẽ trở nên tốt đẹp hơn'.split(
       '',
     )
+  const [hadOverlay, setHadOverlay] = useState(false)
   const overlayPathRef = useRef(null)
 
   useEffect(() => {
-    console.log(overlayPathRef)
+    if (overlayPathRef.current) {
+      setHadOverlay(true)
+    }
   }, [overlayPathRef])
+
   return (
     <main className="relative h-screen">
       <ul className="noel-neon-light">
@@ -34,7 +38,8 @@ export const HomePage: React.FC = () => {
             <span key={id}>{c}</span>
           ))}
         </div>
-        {overlayPathRef?.current && <ButtonGameStart overlayPath={overlayPathRef?.current} />}
+        {/** @ts-expect-error Ignore type check */}
+        {hadOverlay && <ButtonGameStart overlayPath={overlayPathRef?.current} />}
       </div>
       <div className="absolute bottom-0 left-0 w-full h-200px bg-noel"></div>
       <svg
