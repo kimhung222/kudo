@@ -12,7 +12,11 @@ export const CreateKudoPage: React.FC = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [isFetching, setIsFetching] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const data = useRef<FormProps[]>([]);
+  const data = useRef<FormProps[]>([
+    { userId: -1, content: "" },
+    { userId: -1, content: "" },
+    { userId: -1, content: "" },
+  ]);
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const [selectedIds, setSelectedIds] = useState([RANDOM_USER_ID, -1, -1]);
@@ -47,9 +51,11 @@ export const CreateKudoPage: React.FC = () => {
   };
   useEffect(() => {
     if (user) {
+      console.log(123);
       setIsFetching(true);
       getUserKudoData(user?.uid)
         .then((snapshot) => {
+          console.log(snapshot.exists());
           if (snapshot.exists()) {
             data.current = snapshot.val();
           }
@@ -78,25 +84,26 @@ export const CreateKudoPage: React.FC = () => {
             >
               <div className="flex w-full h-[80vh]">
                 {[
-                  { key: "first", kudoTargetId: RANDOM_USER_ID },
-                  { key: "second" },
+                  { key: "first", isRandomChoice: true },
+                  { key: "second", isRandomChoice: true },
                   { key: "last" },
                 ].map(
                   (
                     {
                       key,
-                      kudoTargetId,
+                      isRandomChoice,
                     }: {
                       key: string;
-                      kudoTargetId?: number;
+                      isRandomChoice?: boolean;
                     },
                     index
                   ) => (
                     <KudoForm
+                      defaultValues={data.current[index]}
                       isLoading={isFetching || isSubmitting}
                       key={key}
                       onSelectUser={(userId) => handleSelectUser(index, userId)}
-                      kudoTargetId={kudoTargetId}
+                      isRandomChoice={isRandomChoice}
                       onBack={handleBack}
                       onNext={(values, id) => handleNext(values, id, index)}
                       activeStep={activeStep}

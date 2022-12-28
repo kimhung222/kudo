@@ -1,39 +1,42 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { users } from "../../constants";
 import { Combobox } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { classNames } from "../../utils";
 
 export interface FormProps {
-  selectedUserId: number;
+  userId: number;
   content: string;
 }
 
 interface KudoFormProps {
+  isRandomChoice?: boolean;
   isLoading: boolean;
   onSelectUser: (id: number) => void;
   selectedIds: number[];
-  kudoTargetId?: number;
   totalStep: number;
   activeStep: number;
   onNext: (values: FormProps, id: number) => void;
   onBack: () => void;
+  defaultValues?: FormProps;
 }
 
 export const KudoForm: React.FC<KudoFormProps> = ({
   isLoading,
   selectedIds,
-  kudoTargetId = -1,
   totalStep,
   activeStep,
   onNext,
   onBack,
   onSelectUser,
+  isRandomChoice = false,
+  defaultValues = { userId: -1, content: "" },
 }) => {
-  const [selectedUserId, setSelectedUserId] = useState(kudoTargetId);
+  const { userId: defaultUserId, content: defaultContent } = defaultValues;
+  const [selectedUserId, setSelectedUserId] = useState(defaultUserId);
   const selectedName =
     users.find((user) => user.id === selectedUserId)?.name || "";
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState(defaultContent);
   const [query, setQuery] = useState("");
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
   const isFinalStep = activeStep === totalStep - 1;
@@ -48,18 +51,27 @@ export const KudoForm: React.FC<KudoFormProps> = ({
           return user.name.toLowerCase().includes(query.toLowerCase());
         });
 
-  const title =
-    kudoTargetId > 0 ? (
-      <>
-        Định mệnh đã đưa <b>{selectedName}</b> đến với bạn
-      </>
-    ) : (
-      "Hãy chọn một người mà bạn muốn gửi gắm nỗi niềm"
-    );
+  const isRandomTitle = isRandomChoice && defaultUserId > 0;
 
-  const isSuggestionDisabled = kudoTargetId > 0;
+  const title = isRandomTitle ? (
+    <>
+      Định mệnh đã đưa <b>{selectedName}</b> đến với bạn
+    </>
+  ) : (
+    "Hãy chọn một người mà bạn muốn gửi gắm nỗi niềm"
+  );
+
+  const isSuggestionDisabled = isRandomTitle;
 
   const isValid = selectedUserId >= 0 && !!content.trim();
+
+  console.log(defaultValues);
+  useEffect(() => {
+    const { userId, content } = defaultValues;
+    setSelectedUserId(userId);
+    setContent(content);
+  }, [JSON.stringify(defaultValues)]);
+
   return (
     <div className="flex self-stretch w-full flex-col flex-shrink-0 h-[80vh] px-4">
       <div className="mt-4 text-lg tracking-tight text-slate-900">{title}</div>
@@ -178,7 +190,7 @@ export const KudoForm: React.FC<KudoFormProps> = ({
           onClick={() =>
             onNext(
               {
-                selectedUserId: selectedUserId,
+                userId: selectedUserId,
                 content,
               },
               selectedUserId
