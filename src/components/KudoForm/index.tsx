@@ -53,24 +53,18 @@ export const KudoForm: React.FC<KudoFormProps> = ({
 
   const isRandomTitle = isRandomChoice && defaultUserId > 0;
 
-  const title = isRandomTitle ? (
-    <>
-      Định mệnh đã đưa <b>{selectedName}</b> đến với bạn
-    </>
-  ) : (
-    "Hãy chọn một người mà bạn muốn gửi gắm nỗi niềm"
-  );
+  const title =
+    selectedUserId < 0 ? "Hãy chọn một người mà bạn muốn gửi gắm nỗi niềm" : "";
 
   const isSuggestionDisabled = isRandomTitle;
 
   const isValid = selectedUserId >= 0 && !!content.trim();
 
-  console.log(defaultValues);
   useEffect(() => {
     const { userId, content } = defaultValues;
     setSelectedUserId(userId);
     setContent(content);
-  }, [JSON.stringify(defaultValues)]);
+  }, [defaultValues]);
 
   return (
     <div className="flex self-stretch w-full flex-col flex-shrink-0 h-[80vh] px-4">

@@ -57,13 +57,14 @@ export const CreateKudoPage: React.FC = () => {
       getUserKudoData(user?.uid)
         .then((snapshot) => {
           if (snapshot.exists()) {
+            console.log(snapshot.val());
             data.current = snapshot.val();
           }
         })
         .catch(console.error)
         .finally(() => setIsFetching(false));
     }
-  }, []);
+  }, [user]);
 
   return (
     <div className="w-screen flex justify-center pt-6">

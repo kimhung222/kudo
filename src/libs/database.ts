@@ -1,4 +1,4 @@
-import { ref, set, get, child, update } from "firebase/database";
+import { ref, set, get, child, update, getDatabase } from "firebase/database";
 import { realtimeDB } from "./firebase";
 
 export function writeUserData(userId: string, assign?: number[]) {
@@ -8,8 +8,10 @@ export function writeUserData(userId: string, assign?: number[]) {
   });
 }
 
-export const getUserKudoData = (userId: string) =>
-  get(child(ref(realtimeDB), `users/${userId}/kudos`));
+export const getUserKudoData = (userId: string) => {
+  const dbRef = ref(getDatabase());
+  return get(child(dbRef, `users/${userId}/kudos`));
+};
 
 export const writeUserKudoData = (userId: string, data: any[]) =>
   update(ref(realtimeDB), {
