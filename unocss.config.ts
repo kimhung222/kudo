@@ -147,6 +147,15 @@ export default defineConfig({
         "border-width": "0",
       },
     ],
+    [
+      'backface-hidden',
+      {
+        'backface-visibility': 'hidden',
+        '-moz-backface-visibility': 'hidden',
+        '-webkit-backface-visibility': 'hidden',
+        '-ms-backface-visibility': 'hidden',
+      },
+    ],
   ],
   transformers: [
     transformerDirectives(),
