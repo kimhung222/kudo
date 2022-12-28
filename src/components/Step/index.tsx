@@ -2,11 +2,8 @@ import { classNames } from "../../utils";
 import { CheckIcon } from "@heroicons/react/20/solid";
 import React from "react";
 
-interface Step {
-  name: string;
-}
 export interface StepsProps {
-  steps: Step[];
+  steps: string[];
   activeStep: number;
   isFinished: boolean;
   onSelectStep: (index: number) => void;
@@ -27,7 +24,7 @@ export const Steps: React.FC<StepsProps> = ({
           return (
             <li
               onClick={() => onSelectStep(index)}
-              key={step.name}
+              key={index}
               className={classNames(
                 index !== steps.length - 1 ? "pr-8 sm:pr-20" : "",
                 "relative"
@@ -46,7 +43,7 @@ export const Steps: React.FC<StepsProps> = ({
                       className="h-5 w-5 text-white"
                       aria-hidden="true"
                     />
-                    <span className="sr-only">{step.name}</span>
+                    <span className="sr-only">{step}</span>
                   </div>
                 </>
               ) : isActive ? (
@@ -65,7 +62,7 @@ export const Steps: React.FC<StepsProps> = ({
                       className="h-2.5 w-2.5 rounded-full bg-indigo-600"
                       aria-hidden="true"
                     />
-                    <span className="sr-only">{step.name}</span>
+                    <span className="sr-only">{step}</span>
                   </div>
                 </>
               ) : (
@@ -81,7 +78,7 @@ export const Steps: React.FC<StepsProps> = ({
                       className="h-2.5 w-2.5 rounded-full bg-transparent group-hover:bg-gray-300"
                       aria-hidden="true"
                     />
-                    <span className="sr-only">{step.name}</span>
+                    <span className="sr-only">{step}</span>
                   </div>
                 </>
               )}

@@ -10,9 +10,10 @@ export interface FormProps {
 }
 
 interface KudoFormProps {
+  isLoading: boolean;
   onSelectUser: (id: number) => void;
   selectedIds: number[];
-  randomUserId?: number;
+  kudoTargetId?: number;
   totalStep: number;
   activeStep: number;
   onNext: (values: FormProps, id: number) => void;
@@ -20,15 +21,16 @@ interface KudoFormProps {
 }
 
 export const KudoForm: React.FC<KudoFormProps> = ({
+  isLoading,
   selectedIds,
-  randomUserId = -1,
+  kudoTargetId = -1,
   totalStep,
   activeStep,
   onNext,
   onBack,
   onSelectUser,
 }) => {
-  const [selectedUserId, setSelectedUserId] = useState(randomUserId);
+  const [selectedUserId, setSelectedUserId] = useState(kudoTargetId);
   const selectedName =
     users.find((user) => user.id === selectedUserId)?.name || "";
   const [content, setContent] = useState("");
@@ -47,13 +49,15 @@ export const KudoForm: React.FC<KudoFormProps> = ({
         });
 
   const title =
-    randomUserId > 0 ? (
+    kudoTargetId > 0 ? (
       <>
         Định mệnh đã đưa <b>{selectedName}</b> đến với bạn
       </>
     ) : (
       "Hãy chọn một người mà bạn muốn gửi gắm nỗi niềm"
     );
+
+  const isSuggestionDisabled = kudoTargetId > 0;
 
   const isValid = selectedUserId >= 0 && !!content.trim();
   return (
@@ -66,22 +70,22 @@ export const KudoForm: React.FC<KudoFormProps> = ({
           onSelectUser(id);
           setSelectedUserId(id);
         }}
-        disabled={randomUserId > 0}
+        disabled={isSuggestionDisabled}
       >
         <Combobox.Label className="block text-sm font-medium text-gray-700 mt-4">
           Gửi tới
         </Combobox.Label>
         <div className="relative mt-1">
           <Combobox.Input
-            disabled={randomUserId > 0}
-            className="w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+            disabled={isSuggestionDisabled}
+            className="w-full rounded-md border bg-white py-2 pl-3 pr-10 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
             onChange={(event) => setQuery(event.target.value)}
             displayValue={(id: number) => {
               return users.find((user) => user.id === id)?.name || "";
             }}
           />
           <Combobox.Button
-            disabled={randomUserId > 0}
+            disabled={isSuggestionDisabled}
             className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none"
           >
             <ChevronUpDownIcon
@@ -99,7 +103,7 @@ export const KudoForm: React.FC<KudoFormProps> = ({
                   className={({ active }) =>
                     classNames(
                       "relative cursor-default select-none py-2 pl-3 pr-9",
-                      active ? "bg-indigo-600 text-white" : "text-gray-900"
+                      active ? "bg-indigo-600 text-white" : ""
                     )
                   }
                 >
@@ -139,11 +143,15 @@ export const KudoForm: React.FC<KudoFormProps> = ({
         Lời nhắn
       </label>
       <textarea
+        style={{
+          fontFamily: "inherit",
+          color: "inherit",
+        }}
         rows={5}
         id="comment"
         name="comment"
         placeholder="Để lại lời nhắn của bạn ở đây"
-        className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+        className="block w-full rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
         ref={textAreaRef}
         onChange={(e) => setContent(e.target.value)}
         onInput={() => {
@@ -166,12 +174,12 @@ export const KudoForm: React.FC<KudoFormProps> = ({
           Quay lại
         </button>
         <button
-          disabled={!isValid}
+          disabled={!isValid || isLoading}
           onClick={() =>
             onNext(
               {
-                selectedUserId: 0,
-                content: "",
+                selectedUserId: selectedUserId,
+                content,
               },
               selectedUserId
             )
