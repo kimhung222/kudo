@@ -1,12 +1,11 @@
-import { signInAnonymously } from "firebase/auth";
-import React, { PropsWithChildren, useEffect, useState } from "react";
-import { auth, onMessageListener } from "../libs/firebase";
-import { AuthContext, AuthContextProps } from "./auth.provider";
+import { signInAnonymously } from 'firebase/auth'
+import React, { PropsWithChildren, useEffect, useState } from 'react'
+import { auth, onMessageListener } from '../libs/firebase'
+import { AuthContext, AuthContextProps } from './auth.provider'
 
 export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
-  const [currentUser, setCurrentUser] =
-    useState<AuthContextProps["user"]>(null);
-  const [pending, setPending] = useState(true);
+  const [currentUser, setCurrentUser] = useState<AuthContextProps['user']>(null)
+  const [pending, setPending] = useState(true)
 
   useEffect(() => {
     // Notification.requestPermission()
@@ -15,18 +14,18 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     // 'BKUVubDfZekFELCwdJL8Cjeu9P51WBXlmHUJ6vSK7tQ0emuPAtqDauhAdwoy7GjFeYjwFcFmVXsUOqCq8uDUPXI'
     // }).then(res => { console.log('token', res); })
     onMessageListener().then((payload) => {
-      console.log(payload);
-    });
+      console.log(payload)
+    })
     signInAnonymously(auth)
       .then((credential) => {
-        setCurrentUser(credential.user);
-        setPending(false);
+        setCurrentUser(credential.user)
+        setPending(false)
       })
       .catch((error) => {
-        console.log("Chịu");
-        console.error("useEffect  👻  error", error);
-      });
-  }, []);
+        console.log('Chịu')
+        console.error('useEffect  👻  error', error)
+      })
+  }, [])
 
   return (
     <AuthContext.Provider
@@ -37,5 +36,5 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     >
       {children}
     </AuthContext.Provider>
-  );
-};
+  )
+}
