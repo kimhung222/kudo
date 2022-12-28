@@ -2,6 +2,7 @@ import { signInAnonymously } from "firebase/auth";
 import React, { PropsWithChildren, useEffect, useState } from "react";
 import { auth, onMessageListener } from "../libs/firebase";
 import { AuthContext, AuthContextProps } from "./auth.provider";
+import { Toaster } from "react-hot-toast";
 
 export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [currentUser, setCurrentUser] =
@@ -35,6 +36,7 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
         pending,
       }}
     >
+      <Toaster />
       {children}
     </AuthContext.Provider>
   );

@@ -5,10 +5,10 @@ import { Steps } from "../../components/Step";
 import { useNavigate } from "react-router";
 import { getUserKudoData, writeUserKudoData } from "../../libs/database";
 import { AuthContext } from "../../context/auth.provider";
+import toast from "react-hot-toast";
 
 const RANDOM_USER_ID = 9;
 export const CreateKudoPage: React.FC = () => {
-  // init random user
   const [activeStep, setActiveStep] = useState(0);
   const [isFetching, setIsFetching] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -43,19 +43,19 @@ export const CreateKudoPage: React.FC = () => {
     setIsSubmitting(true);
     writeUserKudoData(user?.uid || "", data.current)
       .then(() => {
-        // toast
+        toast.success("Lời nhắn của bạn đã được ghi nhận!");
         navigate("/kudo/create/success");
       })
-      .catch(console.error)
+      .catch((e) => {
+        toast.error("Có lỗi xảy ra!");
+      })
       .finally(() => setIsSubmitting(false));
   };
   useEffect(() => {
     if (user) {
-      console.log(123);
       setIsFetching(true);
       getUserKudoData(user?.uid)
         .then((snapshot) => {
-          console.log(snapshot.exists());
           if (snapshot.exists()) {
             data.current = snapshot.val();
           }
