@@ -159,6 +159,7 @@ export const KudoForm: React.FC<KudoFormProps> = ({
         placeholder="Để lại lời nhắn của bạn ở đây"
         className="block w-full rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
         ref={textAreaRef}
+        value={content}
         onChange={(e) => setContent(e.target.value)}
         onInput={() => {
           if (textAreaRef?.current?.style) {

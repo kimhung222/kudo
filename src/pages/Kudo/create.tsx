@@ -12,6 +12,7 @@ export const CreateKudoPage: React.FC = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [isFetching, setIsFetching] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
   const data = useRef<FormProps[]>([
     { userId: -1, content: "" },
     { userId: -1, content: "" },
@@ -43,12 +44,10 @@ export const CreateKudoPage: React.FC = () => {
     setIsSubmitting(true);
     writeUserKudoData(user?.uid || "", data.current)
       .then(() => {
-        toast.success("Lời nhắn của bạn đã được ghi nhận!");
+        // toast
         navigate("/kudo/create/success");
       })
-      .catch((e) => {
-        toast.error("Có lỗi xảy ra!");
-      })
+      .catch(console.error)
       .finally(() => setIsSubmitting(false));
   };
   useEffect(() => {
@@ -56,8 +55,8 @@ export const CreateKudoPage: React.FC = () => {
       setIsFetching(true);
       getUserKudoData(user?.uid)
         .then((snapshot) => {
+          console.log(snapshot.exists());
           if (snapshot.exists()) {
-            console.log(snapshot.val());
             data.current = snapshot.val();
           }
         })
