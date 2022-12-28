@@ -8,6 +8,16 @@ import { users } from "../../constants";
 import { AuthContext } from "../../context/auth.provider";
 import { writeUserData } from "../../libs/database";
 
+const dataFakeGenerator = (max: number) => {
+  const toReturn = [];
+  for (let i = 0; i < max; i++) {
+    toReturn.push({
+      userId: `user-${ i }`
+    });
+  }
+  return toReturn;
+}
+
 export const GMHeader = () => {
   const [data, setData] = useState({});
   const [currentGame, setCurrentGame] = useState(0);
@@ -16,8 +26,10 @@ export const GMHeader = () => {
     const userRef = ref(realtimeDB, 'users');
     const gameStateRef = ref(realtimeDB, 'currentGame');
     onValue(userRef, (snapshot) => {
-      setData(snapshot.val());
+      setData(snapshot.val() || {});
     });
+    // const dt = dataFakeGenerator(50);
+    // setData(dt);
     onValue(gameStateRef, (snapshot) => {
       setCurrentGame(snapshot.val());
     });
@@ -28,14 +40,25 @@ export const GMHeader = () => {
     return Math.floor(Math.random() * max)
   }
 
+  const getRandomPair = (length: number): number[] => {
+    const number1 = getRandomInt(length);
+    let number2 = getRandomInt(length);
+    while (number2 === number1) number2 = getRandomInt(length);
+    return [number1, number2];
+  }
+
   const handleGame1Start = () => {
-    const usersLength = users.length;
+    let userList = [...users];
     Object.values(data).forEach(user => {
-      const number1 = getRandomInt(usersLength);
-      let number2 = getRandomInt(usersLength);
-      while (number2 === number1) number2 = getRandomInt(usersLength);
-      const assign = [number1, number2];
-      writeUserData(context.user.uid, assign);
+      if (userList.length <= 2) {
+        userList = [...users];
+      }
+      const length = userList.length;
+      const pair = getRandomPair(length);
+      const user1 = userList[pair[0]];
+      const user2 = userList[pair[1]];
+      writeUserData(user.userId, [user1.id, user2.id]);
+      userList = [...userList.filter((u) => ![user1.id, user2.id].includes(u.id))];
     })
   }
 
@@ -49,7 +72,7 @@ export const GMHeader = () => {
             <div className="flex flex-wrap">
               <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
                 <GMGameCard
-                  statSubtitle="Game 1"
+                  statSubtitle="Kudo"
                   statTitle={ userJoinedCount }
                   isPlaying={ currentGame === 1 }
                   id={ 1 }
@@ -59,7 +82,7 @@ export const GMHeader = () => {
               </div>
               <div className="w-full lg:w-6/12 xl:w-3/12 px-4 !all:mb-0">
                 <GMGameCard
-                  statSubtitle="NEW USERS"
+                  statSubtitle="Memories"
                   statTitle={ userJoinedCount }
                   isPlaying={ currentGame === 2 }
                   id={ 2 }

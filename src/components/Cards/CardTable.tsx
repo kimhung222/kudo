@@ -11,7 +11,7 @@ export default function CardTable({ color }) {
   useEffect(() => {
     const userRef = ref(realtimeDB, 'users');
     onValue(userRef, (snapshot) => {
-      setData(snapshot.val());
+      setData(snapshot.val() || {});
     })
   }, []);
   return (
