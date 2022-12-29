@@ -64,3 +64,13 @@ export async function getTechiesMemories() {
     return [];
   }
 }
+
+export function writeDistributeStatus(value) {
+  try {
+    set(ref(realtimeDB, 'distributeStatus/'), {
+      value,
+    });
+  } catch (error) {
+    console.log({ error });
+  }
+}
