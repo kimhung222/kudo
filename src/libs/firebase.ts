@@ -27,7 +27,7 @@ export const realtimeDB = getDatabase(app);
 const messaging = getMessaging(app);
 
 export const getToken = setTokenFound => {
-  return getToken(messaging, { vapidKey: 'GENERATED_MESSAGING_KEY' })
+  return getToken(messaging)
     .then(currentToken => {
       if (currentToken) {
         console.log('current token for client: ', currentToken);

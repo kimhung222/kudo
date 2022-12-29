@@ -7,16 +7,6 @@ import { writeDistributeStatus, writeUserData } from '../../libs/database';
 import { realtimeDB } from '../../libs/firebase';
 import { GMGameCard } from '../Cards/GMGameCard';
 
-const dataFakeGenerator = (max: number) => {
-  const toReturn = [];
-  for (let i = 0; i < max; i++) {
-    toReturn.push({
-      userId: `user-${i}`
-    });
-  }
-  return toReturn;
-};
-
 export const GMHeader = () => {
   const [data, setData] = useState({});
   const [currentGame, setCurrentGame] = useState(0);
@@ -95,6 +85,7 @@ export const GMHeader = () => {
                   statTitle={userJoinedCount}
                   isPlaying={currentGame === 2}
                   id={2}
+                  onStart={undefined}
                 />
               </div>
             </div>
