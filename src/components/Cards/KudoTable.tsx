@@ -69,12 +69,21 @@ export default function KudoTable() {
                 >
                   Content
                 </th>
+                <th
+                  className={
+                    'p1 align-middle border border-solid text-xs uppercase border-l-0' +
+                    ' border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100'
+                  }
+                >
+                  Count
+                </th>
               </tr>
             </thead>
             <tbody>
               {Object.keys(kudos).map((id, index) => {
                 const comments = kudos[id] || [];
                 const user = users.find(i => i.id === Number(id)) || { name: '', userId: -1 };
+                console.log(user.name, comments.length);
                 return (
                   <>
                     {comments.map((cmt, ids) => {
@@ -90,6 +99,9 @@ export default function KudoTable() {
                           </th>
                           <td className="border-t-0 p-1 align-middle border-l-0 border-r-0 text-xs whitespace-pre-line">
                             {cmt}
+                          </td>
+                          <td className="max-w-40 border-t-0 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-1 text-left flex items-center truncate">
+                            {ids === 0 ? comments.length : ''}
                           </td>
                         </tr>
                       );
