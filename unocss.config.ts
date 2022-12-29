@@ -128,6 +128,12 @@ export default defineConfig({
     [/^mw-inline-(\d+)$/, ([, d]) => ({ 'margin-inline': `max(0px, 50% - ${d}px / 2)` })],
     [/^square-(\d+)$/, ([, d]) => ({ width: `${+d / 4}rem`, height: `${+d / 4}rem` })],
     [
+      /^text-shadow-(.+)$/,
+      ([, color]) => ({
+        'text-shadow': `0 0 10px #${color}, 0 0 10px #${color}, 0 0 20px #${color}`
+      })
+    ],
+    [
       'sr-only',
       {
         position: 'absolute',

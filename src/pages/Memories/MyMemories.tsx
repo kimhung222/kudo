@@ -5,9 +5,11 @@ import { classNames } from '../../utils';
 import { toast } from 'react-hot-toast';
 
 import './MyMemories.css';
+import { useNavigate } from 'react-router';
 
 export const MyMemories: React.FC = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [isTouched, setIsTouched] = useState(false);
   const handleSubmitMemories = e => {
     e.preventDefault();
@@ -15,6 +17,9 @@ export const MyMemories: React.FC = () => {
     const memories = Object.fromEntries(form);
     writeMyMemories(user?.uid, Object.values(memories));
     toast.success('Gửi các kỷ niệm thành công 🥰', { duration: 4000 });
+    setTimeout(() => {
+      navigate('/techies/memories');
+    }, 4000);
   };
 
   const handleInteraction = () => {
