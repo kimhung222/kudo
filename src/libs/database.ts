@@ -1,11 +1,11 @@
-import { ref, set, get, child, update, getDatabase } from 'firebase/database';
+import { child, get, getDatabase, ref, set, update } from 'firebase/database';
 import { realtimeDB } from './firebase';
 
-export function writeUserData(userId: string, assign?: number[]) {
+export function writeUserData(userId: string, kudos?: any) {
   try {
     set(ref(realtimeDB, 'users/' + userId), {
       userId,
-      assign
+      kudos
     });
   } catch (error) {
     console.log({ error });
@@ -14,12 +14,12 @@ export function writeUserData(userId: string, assign?: number[]) {
 
 export const getUserKudoData = (userId: string) => {
   const dbRef = ref(getDatabase());
-  return get(child(dbRef, `users/${userId}/kudos`));
+  return get(child(dbRef, `users/${ userId }/kudos`));
 };
 
 export const writeUserKudoData = (userId: string, data: any[]) =>
   update(ref(realtimeDB), {
-    [`users/${userId}/kudos`]: data
+    [`users/${ userId }/kudos`]: data
   });
 
 export function updateGame(value: number) {
@@ -27,5 +27,5 @@ export function updateGame(value: number) {
 }
 
 export function writeMyMemories(userId: string, memories) {
-  update(ref(realtimeDB, `users/${userId}/memories`), memories);
+  update(ref(realtimeDB, `users/${ userId }/memories`), memories);
 }

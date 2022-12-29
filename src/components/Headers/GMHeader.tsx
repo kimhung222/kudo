@@ -11,7 +11,7 @@ const dataFakeGenerator = (max: number) => {
   const toReturn = []
   for (let i = 0; i < max; i++) {
     toReturn.push({
-      userId: `user-${i}`,
+      userId: `user-${ i }`,
     })
   }
   return toReturn
@@ -34,6 +34,8 @@ export const GMHeader = () => {
   }, [])
   const userJoinedCount = Object.keys(data)?.length || 0
 
+  console.log(data)
+
   const getRandomInt = (max: number) => {
     return Math.floor(Math.random() * max)
   }
@@ -45,9 +47,16 @@ export const GMHeader = () => {
     return [number1, number2]
   }
 
+  const getKudosData = (users) => {
+    return users.map(i => ({
+      content: '',
+      userId: i,
+    }))
+  }
+
   const handleGame1Start = () => {
     let userList = [...users]
-    Object.values(data).forEach((user) => {
+    Object.keys(data).forEach((userId) => {
       if (userList.length <= 2) {
         userList = [...users]
       }
@@ -55,35 +64,36 @@ export const GMHeader = () => {
       const pair = getRandomPair(length)
       const user1 = userList[pair[0]]
       const user2 = userList[pair[1]]
-      writeUserData(user.userId, [user1.id, user2.id])
+      const kudos = getKudosData([user1.id, user2.id]);
+      writeUserData(userId, kudos);
       userList = [...userList.filter((u) => ![user1.id, user2.id].includes(u.id))]
     })
   }
 
   return (
     <>
-      {/* Header */}
+      {/* Header */ }
       <div className="relative bg-lightBlue-600 md:pt-16 pb-10 pt-10">
         <div className="px-4 md:px-10 mx-auto w-full">
           <div>
-            {/* Card stats */}
+            {/* Card stats */ }
             <div className="flex flex-wrap">
               <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
                 <GMGameCard
                   statSubtitle="Kudo"
-                  statTitle={userJoinedCount}
-                  isPlaying={currentGame === 1}
-                  id={1}
-                  onStart={handleGame1Start}
+                  statTitle={ userJoinedCount }
+                  isPlaying={ currentGame === 1 }
+                  id={ 1 }
+                  onStart={ handleGame1Start }
                   btnStartText="Distribute"
                 />
               </div>
               <div className="w-full lg:w-6/12 xl:w-3/12 px-4 !all:mb-0">
                 <GMGameCard
                   statSubtitle="Memories"
-                  statTitle={userJoinedCount}
-                  isPlaying={currentGame === 2}
-                  id={2}
+                  statTitle={ userJoinedCount }
+                  isPlaying={ currentGame === 2 }
+                  id={ 2 }
                 />
               </div>
             </div>

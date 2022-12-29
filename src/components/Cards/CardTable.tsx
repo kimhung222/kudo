@@ -5,8 +5,7 @@ import { users } from "../../constants";
 
 // components
 
-
-export default function CardTable({ color }) {
+export default function CardTable() {
   const [data, setData] = useState({});
   useEffect(() => {
     const userRef = ref(realtimeDB, 'users');
@@ -14,21 +13,28 @@ export default function CardTable({ color }) {
       setData(snapshot.val() || {});
     })
   }, []);
+
+  const getKudos = () => {
+    let kudos = [];
+    Object.keys(data).forEach((userId, i) => {
+      const user = data[userId] || {};
+      const kds = user.kudos || [];
+      kudos = [...kudos, ...kds];
+    })
+    return kudos;
+  }
+
   return (
     <>
       <div
-        className={
-          "relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded " +
-          (color === "light" ? "bg-white" : "bg-lightBlue-900 text-white")
-        }
+        className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded "
       >
         <div className="rounded-t mb-0 px-4 py-3 border-0">
           <div className="flex flex-wrap items-center">
             <div className="relative w-full px-4 max-w-full flex-grow flex-1">
               <h3
                 className={
-                  "font-semibold text-lg " +
-                  (color === "light" ? "text-blueGray-700" : "text-white")
+                  "font-semibold text-lg "
                 }
               >
                 Participants
@@ -43,30 +49,25 @@ export default function CardTable({ color }) {
             <tr>
               <th
                 className={
-                  "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left " +
-                  (color === "light"
-                    ? "bg-blueGray-50 text-blueGray-500 border-blueGray-100"
-                    : "bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700")
+                  "p-1 align-middle border border-solid text-xs uppercase border-l-0 border-r-0"
+                  + " whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500"
+                  + " border-blueGray-100"
                 }
               >
                 User
               </th>
               <th
                 className={
-                  "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left " +
-                  (color === "light"
-                    ? "bg-blueGray-50 text-blueGray-500 border-blueGray-100"
-                    : "bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700")
+                  "p1 align-middle border border-solid text-xs uppercase border-l-0"
+                  + " border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100"
                 }
               >
                 Assignee
               </th>
               <th
                 className={
-                  "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left " +
-                  (color === "light"
-                    ? "bg-blueGray-50 text-blueGray-500 border-blueGray-100"
-                    : "bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700")
+                  "align-middle border border-solid p-1 text-xs uppercase border-l-0 border-r-0"
+                  + " whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100"
                 }
               >
                 Says
@@ -74,45 +75,39 @@ export default function CardTable({ color }) {
             </tr>
             </thead>
             <tbody>
-            { Object.values(data).map((item, index) => {
-              console.log(item, index)
+            { Object.keys(data).map((userId, index) => {
+              const user = data[userId] || {};
+              const kudos = user.kudos || [{ content: '', userId: '' }];
               return (
-                <tr key={ index }>
-                  <th
-                    className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center">
-                    {/*<img*/ }
-                    {/*  src="assets/img/bootstrap.jpg"*/ }
-                    {/*  className="h-12 w-12 bg-white rounded-full border"*/ }
-                    {/*  alt="..."*/ }
-                    {/*></img>{ " " }*/ }
-                    <span
-                      className={
-                        "ml-3 font-bold " +
-                        +(color === "light" ? "text-blueGray-600" : "text-white")
-                      }
-                    >
-                    { item?.userId || 'user không xác định' }
-                  </span>
-                  </th>
-                  <td
-                    className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                    { item?.assign?.map((a, i) => {
-                      const user = users[a];
-                      return (
-                        <p key={ `as_${ i }` }>{ user?.name }</p>
-                      )
-                    }) }
-                  </td>
-                  <td
-                    className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                    { item?.assign?.map((a, i) => {
-                      const user = users[a];
-                      return (
-                        <p key={ `as_${ i }` }>{ user?.name }</p>
-                      )
-                    }) }
-                  </td>
-                </tr>
+                <>
+                  { kudos.map((kudo, id) => {
+                    const usr = users.find(u => u.id === kudo.userId) || {};
+                    return (
+                      <tr key={ index }>
+                        <th
+                          className="max-w-30 border-t-0 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-1 text-left flex items-center truncate"
+                          rowSpan={ id === 0 ? 2 : 0 }
+                        >
+                          <span
+                            className={
+                              "font-bold text-blueGray-600"
+                            }
+                          >
+                          { id === 0 ? userId || 'user không xác định' : '' }
+                          </span>
+                        </th>
+                        <td
+                          className="border-t-0 p-1 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap">
+                          { usr.name }
+                        </td>
+                        <td
+                          className="border-t-0 p-1 align-middle border-l-0 border-r-0 text-xs whitespace-pre-line">
+                          { kudo.content }
+                        </td>
+                      </tr>
+                    )
+                  }) }
+                </>
               )
             }) }
             </tbody>
