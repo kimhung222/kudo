@@ -18,20 +18,19 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
         setPending(false);
       })
       .catch(error => {
-        console.log('Chịu');
         console.error('useEffect  👻  error', error);
       });
   }, []);
 
   return (
     <AuthContext.Provider
-      value={{
+      value={ {
         user: currentUser,
         pending
-      }}
+      } }
     >
-      <Toaster />
-      {children}
+      <Toaster/>
+      { children }
     </AuthContext.Provider>
   );
 };

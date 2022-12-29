@@ -61,9 +61,10 @@ export const ButtonGameStart: React.FC<PropsWithChildren<Props>> = ({ children, 
       duration: 0.15,
       ease: 'sine.in',
       attr: { d: paths.step2.inBetween },
-      // temporary write on complete here bcs the function writeUserData need a time to handle promise
+      // temporary write on complete here bcs the function writeUserData need a time to handle
+      // promise
       onComplete: () => {
-        writeUserData(user?.uid || '');
+        writeUserData(user?.uid || '', []);
         navigate(routePaths.greeting);
       }
     })
@@ -78,8 +79,8 @@ export const ButtonGameStart: React.FC<PropsWithChildren<Props>> = ({ children, 
       <button
         data-testid="btn-start-random-question"
         className="text-white"
-        onClick={moveToGreeting}
-        disabled={pending}
+        onClick={ moveToGreeting }
+        disabled={ pending }
       >
         <div className="cute-cube-rotate-infinite mb-2">
           <div className="green"></div>

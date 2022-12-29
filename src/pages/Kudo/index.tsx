@@ -14,5 +14,14 @@ export const KudoPage: React.FC = () => {
       }
     });
   }, []);
+  useEffect(() => {
+    const gameStateRef = ref(realtimeDB, 'currentGame')
+    onValue(gameStateRef, (snapshot) => {
+      const currentGame = snapshot.val();
+      if (currentGame === 1) {
+        navigate('/kudo/create');
+      }
+    })
+  }, [])
   return <div className="mt-3 text-[blue]">Kudo</div>;
 };

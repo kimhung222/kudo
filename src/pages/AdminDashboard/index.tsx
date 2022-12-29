@@ -6,7 +6,7 @@ export const AdminDashboard = () => {
   return (
     <>
       <div className="flex flex-wrap">
-        <div className="w-full xl:w-8/12 mb-12 xl:mb-0 px-4">
+        <div className="w-full xl:w-8/12 mb-4 xl:mb-0 px-4">
           <KudoTable/>
         </div>
       </div>
