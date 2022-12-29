@@ -1,11 +1,10 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { FormProps, KudoForm } from "../../components";
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { FormProps, KudoForm } from '../../components';
 
-import { Steps } from "../../components/Step";
-import { useNavigate } from "react-router";
-import { getUserKudoData, writeUserKudoData } from "../../libs/database";
-import { AuthContext } from "../../context/auth.provider";
-import toast from "react-hot-toast";
+import { useNavigate } from 'react-router';
+import { Steps } from '../../components/Step';
+import { AuthContext } from '../../context/auth.provider';
+import { getUserKudoData, writeUserKudoData } from '../../libs/database';
 
 const RANDOM_USER_ID = 9;
 export const CreateKudoPage: React.FC = () => {
@@ -14,27 +13,25 @@ export const CreateKudoPage: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const data = useRef<FormProps[]>([
-    { userId: -1, content: "" },
-    { userId: -1, content: "" },
-    { userId: -1, content: "" },
+    { userId: -1, content: '' },
+    { userId: -1, content: '' },
+    { userId: -1, content: '' }
   ]);
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const [selectedIds, setSelectedIds] = useState([RANDOM_USER_ID, -1, -1]);
-  const steps = ["Bước 1", "Bước 2", "Bước 3"];
+  const steps = ['Bước 1', 'Bước 2', 'Bước 3'];
 
-  const handleBack = () => setActiveStep((activeStep) => activeStep - 1);
+  const handleBack = () => setActiveStep(activeStep => activeStep - 1);
 
   const handleSelectUser = (formIndex: number, userId: number) => {
-    setSelectedIds((selectedIds) =>
-      selectedIds.map((selectedId, index) =>
-        index === formIndex ? userId : selectedId
-      )
+    setSelectedIds(selectedIds =>
+      selectedIds.map((selectedId, index) => (index === formIndex ? userId : selectedId))
     );
   };
   const handleNext = (values: FormProps, id: number, formIndex: number) => {
     data.current[formIndex] = {
-      ...values,
+      ...values
     };
     const nextStep = activeStep + 1;
     if (activeStep < steps.length - 1) {
@@ -42,10 +39,10 @@ export const CreateKudoPage: React.FC = () => {
       return;
     }
     setIsSubmitting(true);
-    writeUserKudoData(user?.uid || "", data.current)
+    writeUserKudoData(user?.uid || '', data.current)
       .then(() => {
         // toast
-        navigate("/kudo/create/success");
+        navigate('/kudo/create/success');
       })
       .catch(console.error)
       .finally(() => setIsSubmitting(false));
@@ -54,7 +51,7 @@ export const CreateKudoPage: React.FC = () => {
     if (user) {
       setIsFetching(true);
       getUserKudoData(user?.uid)
-        .then((snapshot) => {
+        .then(snapshot => {
           console.log(snapshot.exists());
           if (snapshot.exists()) {
             data.current = snapshot.val();
@@ -69,12 +66,7 @@ export const CreateKudoPage: React.FC = () => {
     <div className="w-screen flex justify-center pt-6">
       <div className="w-full md:w-[768px] px-4 flex flex-col">
         <div className=" flex w-full justify-center">
-          <Steps
-            steps={steps}
-            activeStep={activeStep}
-            isFinished={false}
-            onSelectStep={() => {}}
-          />
+          <Steps steps={steps} activeStep={activeStep} isFinished={false} onSelectStep={() => {}} />
         </div>
         <div>
           <div className="overflow-hidden w-full">
@@ -84,14 +76,14 @@ export const CreateKudoPage: React.FC = () => {
             >
               <div className="flex w-full h-[80vh]">
                 {[
-                  { key: "first", isRandomChoice: true },
-                  { key: "second", isRandomChoice: true },
-                  { key: "last" },
+                  { key: 'first', isRandomChoice: true },
+                  { key: 'second', isRandomChoice: true },
+                  { key: 'last' }
                 ].map(
                   (
                     {
                       key,
-                      isRandomChoice,
+                      isRandomChoice
                     }: {
                       key: string;
                       isRandomChoice?: boolean;
@@ -102,15 +94,13 @@ export const CreateKudoPage: React.FC = () => {
                       defaultValues={data.current[index]}
                       isLoading={isFetching || isSubmitting}
                       key={key}
-                      onSelectUser={(userId) => handleSelectUser(index, userId)}
+                      onSelectUser={userId => handleSelectUser(index, userId)}
                       isRandomChoice={isRandomChoice}
                       onBack={handleBack}
                       onNext={(values, id) => handleNext(values, id, index)}
                       activeStep={activeStep}
                       totalStep={steps.length}
-                      selectedIds={selectedIds.filter(
-                        (_, idx) => idx !== index
-                      )}
+                      selectedIds={selectedIds.filter((_, idx) => idx !== index)}
                     />
                   )
                 )}
