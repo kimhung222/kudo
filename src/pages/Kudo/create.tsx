@@ -11,6 +11,11 @@ export const CreateKudoPage: React.FC = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [isFetching, setIsFetching] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [defaultValue, setDefaultValue] = useState([
+    { userId: -1, content: '' },
+    { userId: -1, content: '' },
+    { userId: -1, content: '' }
+  ]);
 
   const data = useRef<FormProps[]>([
     { userId: -1, content: '' },
@@ -52,9 +57,9 @@ export const CreateKudoPage: React.FC = () => {
       setIsFetching(true);
       getUserKudoData(user?.uid)
         .then(snapshot => {
-          console.log(snapshot.exists());
           if (snapshot.exists()) {
             data.current = snapshot.val();
+            setDefaultValue(snapshot.val());
           }
         })
         .catch(console.error)
@@ -91,7 +96,7 @@ export const CreateKudoPage: React.FC = () => {
                     index
                   ) => (
                     <KudoForm
-                      defaultValues={data.current[index]}
+                      defaultValues={defaultValue[index]}
                       isLoading={isFetching || isSubmitting}
                       key={key}
                       onSelectUser={userId => handleSelectUser(index, userId)}
