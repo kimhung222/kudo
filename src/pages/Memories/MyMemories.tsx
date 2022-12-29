@@ -16,7 +16,10 @@ export const MyMemories: React.FC = () => {
     e.preventDefault();
     const form = new FormData(e.target);
     const memories = Object.fromEntries(form);
-    writeMyMemories(user?.uid, Object.values(memories));
+    writeMyMemories(
+      user?.uid,
+      Object.values(memories).map(v => v.toString().trim())
+    );
     toast.success('Gửi các kỷ niệm thành công 🥰', { duration: 4000 });
     setTimeout(() => {
       navigate('/techies/memories');

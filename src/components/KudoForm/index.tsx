@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import { users } from '../../constants';
 import { Combobox } from '@headlessui/react';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
-import { classNames } from '../../utils';
 import { onValue, ref } from 'firebase/database';
-import { realtimeDB } from '../../libs/firebase';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { users } from '../../constants';
 import { AuthContext } from '../../context/auth.provider';
+import { realtimeDB } from '../../libs/firebase';
+import { classNames } from '../../utils';
 
 export interface FormProps {
   userId: number;
@@ -188,7 +188,7 @@ export const KudoForm: React.FC<KudoFormProps> = ({
             onNext(
               {
                 userId: selectedUserId,
-                content
+                content: content.trim()
               },
               selectedUserId
             )
