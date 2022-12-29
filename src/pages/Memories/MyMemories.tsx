@@ -32,7 +32,7 @@ export const MyMemories: React.FC = () => {
               rows={6}
               name="quest1"
               minLength={20}
-              className="font-sans block w-full px-4 rounded-2 text-base text-gray-900 bg-white border-0 focus:ring-0"
+              className="block w-full px-4 rounded-2 bg-white border-0 focus:ring-0"
               placeholder="Sự kiện kể ra là bạn đau tim 😱🫀"
               required
             ></textarea>
@@ -47,7 +47,7 @@ export const MyMemories: React.FC = () => {
               placeholder="Điều gì làm bạn nhớ tới là cười *** 😂"
               required
               minLength={20}
-              className="font-sans block w-full px-4 rounded-2 text-base text-gray-900 bg-white border-0 focus:ring-0"
+              className="block w-full px-4 rounded-2 bg-white border-0 focus:ring-0"
             ></textarea>
           </div>
           <div className="px-4 py-2 rounded-b-lg">
@@ -58,7 +58,7 @@ export const MyMemories: React.FC = () => {
               rows={6}
               name="quest3"
               placeholder="Nếu được ting ting +1 triệu về câu chuyện bạn thấy thú vị nhất khi làm ở DNSE, bạn sẽ kể gì? 😎 💸"
-              className="font-sans block w-full px-4 rounded-2 text-base text-gray-900 bg-white border-0 focus:ring-0"
+              className="block w-full px-4 rounded-2 bg-white border-0 focus:ring-0"
             ></textarea>
           </div>
         </div>
