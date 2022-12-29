@@ -1,11 +1,13 @@
 import gsap from 'gsap';
-import React, { PropsWithChildren } from 'react';
+import React, { PropsWithChildren, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { routePaths } from '../../libs/routePaths';
 
 import { useAuth } from '../../context/auth.provider';
 import { writeUserData } from '../../libs/database';
 import './ButtonGameStart.scss';
+import { onValue, ref } from 'firebase/database';
+import { realtimeDB } from '../../libs/firebase';
 
 // paths
 // edit here: https://yqnn.github.io/svg-path-editor/
@@ -29,8 +31,22 @@ type Props = {
 export const ButtonGameStart: React.FC<PropsWithChildren<Props>> = ({ children, overlayPath }) => {
   const navigate = useNavigate();
   const { user, pending } = useAuth();
+  const [currentGame, setCurrentGame] = useState(0);
+
+  useEffect(() => {
+    const userRef = ref(realtimeDB, 'users');
+    const gameStateRef = ref(realtimeDB, 'currentGame');
+    // const dt = dataFakeGenerator(50);
+    // setData(dt);
+    onValue(gameStateRef, snapshot => {
+      setCurrentGame(snapshot.val());
+    });
+  }, []);
+
   const moveToGreeting = () => {
-    pageSwitchTimeline.play(0);
+    if (!currentGame) {
+      pageSwitchTimeline.play(0);
+    }
   };
 
   const pageSwitchTimeline = gsap
@@ -79,8 +95,8 @@ export const ButtonGameStart: React.FC<PropsWithChildren<Props>> = ({ children, 
       <button
         data-testid="btn-start-random-question"
         className="text-white"
-        onClick={ moveToGreeting }
-        disabled={ pending }
+        onClick={moveToGreeting}
+        disabled={pending}
       >
         <div className="cute-cube-rotate-infinite mb-2">
           <div className="green"></div>

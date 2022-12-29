@@ -24,8 +24,6 @@ export const GMHeader = () => {
   }, []);
   const userJoinedCount = Object.keys(data)?.length || 0;
 
-  console.log(data);
-
   const getRandomInt = (max: number) => {
     return Math.floor(Math.random() * max);
   };
