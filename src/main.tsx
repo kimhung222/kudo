@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, createHashRouter, RouterProvider } from 'react-router-dom';
 import { AuthProvider } from './context/auth.context';
 import { ErrorPage } from './pages/Error';
 import { GreetingPage } from './pages/Greeting';
@@ -19,7 +19,7 @@ import '@unocss/reset/tailwind.css';
 import 'virtual:uno.css';
 import './styles/global.css';
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: routePaths.home,
     element: <HomePage />,
