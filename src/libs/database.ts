@@ -7,8 +7,11 @@ export type IKudo = {
   content: string;
   userId: string;
 };
+
+export type Memory = { [key: string]: string };
+
 export type IUser = {
-  memories: string[];
+  memories: Memory[];
   kudos: IKudo[];
 };
 
@@ -54,7 +57,7 @@ export async function getTechiesMemories() {
     const memories = Object.values(users.exportVal())
       // @ts-expect-error Ignore type check dm
       .map(v => v?.memories || [])
-      .filter(isNotEmpty) as string[];
+      .filter(isNotEmpty) as Memory[];
     return memories;
   } catch (error) {
     toast.error('Oops, có lỗi xảy ra, chịu! 😝');
