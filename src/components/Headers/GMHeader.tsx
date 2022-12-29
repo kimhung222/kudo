@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 // components
 import { onValue, ref } from 'firebase/database';
 import { users } from '../../constants';
-import { writeDistributeStatus, writeUserData } from '../../libs/database';
+import { writeAllUsers, writeDistributeStatus } from '../../libs/database';
 import { realtimeDB } from '../../libs/firebase';
 import { GMGameCard } from '../Cards/GMGameCard';
 
@@ -46,6 +46,7 @@ export const GMHeader = () => {
 
   const handleGame1Start = () => {
     let userList = [...users];
+    const allParticipants = {};
     Object.keys(data).forEach(userId => {
       if (userList.length <= 2) {
         userList = [...users];
@@ -55,10 +56,12 @@ export const GMHeader = () => {
       const user1 = userList[pair[0]];
       const user2 = userList[pair[1]];
       const kudos = getKudosData([user1.id, user2.id]);
-      writeUserData(userId, kudos);
+      allParticipants[userId] = { userId, kudos };
       userList = [...userList.filter(u => ![user1.id, user2.id].includes(u.id))];
     });
-    writeDistributeStatus(1);
+    writeAllUsers(allParticipants).then(_ => {
+      writeDistributeStatus(1);
+    });
   };
 
   return (

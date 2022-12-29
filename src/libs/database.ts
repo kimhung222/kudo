@@ -26,6 +26,10 @@ export function writeUserData(userId: string, kudos = []) {
   }
 }
 
+export function writeAllUsers(users) {
+  return set(ref(realtimeDB, 'users/'), users);
+}
+
 export const getUserKudoData = (userId: string) => {
   const dbRef = ref(getDatabase());
   return get(child(dbRef, `users/${userId}/kudos`));
@@ -67,9 +71,7 @@ export async function getTechiesMemories() {
 
 export function writeDistributeStatus(value) {
   try {
-    set(ref(realtimeDB, 'distributeStatus/'), {
-      value,
-    });
+    set(ref(realtimeDB, 'distributeStatus/'), value);
   } catch (error) {
     console.log({ error });
   }
