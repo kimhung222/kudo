@@ -1,6 +1,6 @@
 import { signInAnonymously } from 'firebase/auth';
 import React, { PropsWithChildren, useEffect, useState } from 'react';
-import { auth, onMessageListener } from '../libs/firebase';
+import { auth } from '../libs/firebase';
 import { AuthContext, AuthContextProps } from './auth.provider';
 import { Toaster } from 'react-hot-toast';
 
@@ -9,9 +9,6 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [pending, setPending] = useState(true);
 
   useEffect(() => {
-    onMessageListener().then(payload => {
-      console.log(payload);
-    });
     signInAnonymously(auth)
       .then(credential => {
         setCurrentUser(credential.user);
@@ -24,13 +21,13 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={ {
+      value={{
         user: currentUser,
         pending
-      } }
+      }}
     >
-      <Toaster/>
-      { children }
+      <Toaster />
+      {children}
     </AuthContext.Provider>
   );
 };

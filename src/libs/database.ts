@@ -1,4 +1,3 @@
-import { isNotEmpty } from '@techmely/utils';
 import { child, get, getDatabase, ref, set, update } from 'firebase/database';
 import { toast } from 'react-hot-toast';
 import { realtimeDB } from './firebase';
@@ -8,10 +7,9 @@ export type IKudo = {
   userId: string;
 };
 
-export type Memory = { [key: string]: string };
+export type Memories = { [key: string]: string[] };
 
 export type IUser = {
-  memories: Memory[];
   kudos: IKudo[];
 };
 
@@ -47,7 +45,17 @@ export function updateGame(value: number) {
 export function writeMyMemories(userId = '', memories: any[]) {
   try {
     update(ref(realtimeDB), {
-      [`users/${userId}/memories`]: memories
+      [`memories/${userId}`]: memories
+    });
+  } catch (error) {
+    toast.error('Oops, có lỗi xảy ra, chịu! 😝');
+  }
+}
+
+export function writeVoteMemories(userId = '', participantId?: any) {
+  try {
+    update(ref(realtimeDB), {
+      [`votes/${userId}`]: participantId
     });
   } catch (error) {
     toast.error('Oops, có lỗi xảy ra, chịu! 😝');
@@ -57,15 +65,13 @@ export function writeMyMemories(userId = '', memories: any[]) {
 export async function getTechiesMemories() {
   try {
     const dbRef = ref(getDatabase());
-    const users = await get(child(dbRef, 'users'));
-    const memories = Object.values(users.exportVal())
-      // @ts-expect-error Ignore type check dm
-      .map(v => v?.memories || [])
-      .filter(isNotEmpty) as Memory[];
+    const memoriesDb = await get(child(dbRef, 'memories'));
+    const memories = memoriesDb.exportVal() as Memories;
     return memories;
   } catch (error) {
+    console.log('getTechiesMemories  👻  error', { error });
     toast.error('Oops, có lỗi xảy ra, chịu! 😝');
-    return [];
+    return {};
   }
 }
 

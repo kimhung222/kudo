@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../../styles/home.css';
 import '../../styles/home.scss';
 import { ButtonGameStart } from './ButtonGameStart';
-import { onMessageListener } from '../../libs/firebase';
-import { useNavigate } from 'react-router-dom';
 
 const LIGHT_BULB_COUNT = 8;
 
@@ -16,14 +15,6 @@ export const HomePage: React.FC = () => {
     );
   const [hadOverlay, setHadOverlay] = useState(false);
   const overlayPathRef = useRef(null);
-
-  useEffect(() => {
-    onMessageListener().then(payload => {
-      if (payload?.notification?.body === 'start_kudo') {
-        navigate('/kudo');
-      }
-    });
-  }, []);
 
   useEffect(() => {
     if (overlayPathRef.current) {

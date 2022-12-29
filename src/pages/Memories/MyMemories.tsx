@@ -1,32 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { useAuth } from '../../context/auth.provider';
-import { Memory, writeMyMemories } from '../../libs/database';
-import { classNames } from '../../utils';
+import React, { useState } from 'react';
 import { toast } from 'react-hot-toast';
+import { useAuth } from '../../context/auth.provider';
+import { writeMyMemories } from '../../libs/database';
+import { classNames } from '../../utils';
 
-import './MyMemories.css';
 import { useNavigate } from 'react-router';
+import './MyMemories.css';
 
 export const MyMemories: React.FC = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [isTouched, setIsTouched] = useState(false);
-  const [memories, setMemories] = useState<Memory[]>();
-  console.log('memories', memories);
-
-  useEffect(() => {
-    const memoriesLocal = localStorage.getItem('memories');
-    if (memoriesLocal) {
-      const mems = JSON.parse(memoriesLocal);
-      setMemories(mems);
-    }
-  }, []);
 
   const handleSubmitMemories = e => {
     e.preventDefault();
     const form = new FormData(e.target);
     const memories = Object.fromEntries(form);
-    localStorage.setItem('memories', JSON.stringify(memories));
     writeMyMemories(user?.uid, Object.values(memories));
     toast.success('Gửi các kỷ niệm thành công 🥰', { duration: 4000 });
     setTimeout(() => {
@@ -53,7 +42,7 @@ export const MyMemories: React.FC = () => {
             <textarea
               rows={6}
               name="memory1"
-              minLength={20}
+              minLength={10}
               className="block w-full px-4 rounded-2 bg-white border-0 focus:ring-0"
               placeholder="Sự kiện kể ra là bạn đau tim 😱🫀"
               required
@@ -68,7 +57,7 @@ export const MyMemories: React.FC = () => {
               name="memory2"
               placeholder="Điều gì làm bạn nhớ tới là cười *** 😂"
               required
-              minLength={20}
+              minLength={10}
               className="block w-full px-4 rounded-2 bg-white border-0 focus:ring-0"
             ></textarea>
           </div>

@@ -1,6 +1,5 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
-import { getMessaging, type MessagePayload, onMessage } from 'firebase/messaging';
 import { getDatabase } from 'firebase/database';
 
 const firebaseConfig = {
@@ -23,32 +22,3 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 
 export const realtimeDB = getDatabase(app);
-
-const messaging = getMessaging(app);
-
-export const getToken = setTokenFound => {
-  return getToken(messaging)
-    .then(currentToken => {
-      if (currentToken) {
-        console.log('current token for client: ', currentToken);
-        setTokenFound(true);
-        // Track the token -> client mapping, by sending to backend server
-        // show on the UI that permission is secured
-      } else {
-        console.log('No registration token available. Request permission to generate one.');
-        setTokenFound(false);
-        // shows on the UI that permission is required
-      }
-    })
-    .catch(err => {
-      console.log('An error occurred while retrieving token. ', err);
-      // catch error while creating client token
-    });
-};
-
-export const onMessageListener = () =>
-  new Promise<MessagePayload>(resolve => {
-    onMessage(messaging, payload => {
-      resolve(payload);
-    });
-  });

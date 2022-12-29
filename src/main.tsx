@@ -1,16 +1,15 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, createHashRouter, RouterProvider } from 'react-router-dom';
+import { createHashRouter, RouterProvider } from 'react-router-dom';
+import { GMLayout } from './components/Layout/GMLayout';
 import { AuthProvider } from './context/auth.context';
+import { routePaths } from './libs/routePaths';
+import { AdminDashboard } from './pages/AdminDashboard';
 import { ErrorPage } from './pages/Error';
 import { GreetingPage } from './pages/Greeting';
+import { HomePage } from './pages/Home/Home';
 import { KudoPage } from './pages/Kudo';
 import { CreateKudoPage } from './pages/Kudo/create';
 import { CreateKudoSuccessPage } from './pages/Kudo/success';
-import { HomePage } from './pages/Home/Home';
-import { routePaths } from './libs/routePaths';
-import { GMLayout } from './components/Layout/GMLayout';
-import { AdminDashboard } from './pages/AdminDashboard';
 import { MyMemories } from './pages/Memories/MyMemories';
 import { TechiesMemories } from './pages/Memories/TechiesMemories/TechiesMemories';
 
