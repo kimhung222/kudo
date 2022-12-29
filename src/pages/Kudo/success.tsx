@@ -1,8 +1,19 @@
-import React from "react";
-import { CheckIcon } from "@heroicons/react/20/solid";
-import { NavLink } from "react-router-dom";
+import React, { useEffect } from 'react';
+import { CheckIcon } from '@heroicons/react/20/solid';
+import { onValue, ref } from 'firebase/database';
+import { realtimeDB } from '../../libs/firebase';
+import { useNavigate } from 'react-router-dom';
 
 export const CreateKudoSuccessPage: React.FC = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    const gameStateRef = ref(realtimeDB, 'currentGame');
+    onValue(gameStateRef, snapshot => {
+      if (snapshot.val() === 2 && window.location.pathname !== '/admin-dashboard') {
+        navigate('/me/memories');
+      }
+    });
+  }, []);
   return (
     <div className="w-screen flex justify-center pt-6">
       <div className="w-full md:w-[768px] px-4 flex flex-col h-[50vh] justify-end">
