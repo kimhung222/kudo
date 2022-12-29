@@ -9,7 +9,7 @@ export const TechiesMemories: React.FC = () => {
   const { user } = useAuth();
   const [memories, setMemories] = useState<Memories>({});
   const [votes, setVotes] = useState<any>({});
-  const myVotes = votes ? votes?.[user?.uid || ''] : [];
+  const myVotes = votes && user ? votes?.[user.uid] || [] : [];
   const totalVotes = (userId: string) => {
     if (isEmpty(votes)) return 0;
     const allVotes = Object.values(votes).flat() as string[];
@@ -57,11 +57,11 @@ export const TechiesMemories: React.FC = () => {
           style={{ whiteSpace: 'nowrap' }}
         >
           {Object.keys(memories)?.map?.((userId, index) => (
-            <li key={index} className="memory-item first:pl-8">
+            <li key={index} className="memory-item first:pl-8 last:pr-8">
               <div className="relative card">
                 <div
                   className="absolute top-0 p-2 space-y-2 w-full"
-                  style={{ whiteSpace: 'normal' }}
+                  // style={{ whiteSpace: 'normal' }}
                 >
                   {Object.keys(memories[userId]).map(key => (
                     <p key={key} className="text-base text-left text-white line-clamp-5">
