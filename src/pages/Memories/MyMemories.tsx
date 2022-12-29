@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../context/auth.provider';
-import { writeMyMemories } from '../../libs/database';
+import { Memory, writeMyMemories } from '../../libs/database';
 import { classNames } from '../../utils';
 import { toast } from 'react-hot-toast';
 
@@ -11,15 +11,27 @@ export const MyMemories: React.FC = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [isTouched, setIsTouched] = useState(false);
+  const [memories, setMemories] = useState<Memory[]>();
+  console.log('memories', memories);
+
+  useEffect(() => {
+    const memoriesLocal = localStorage.getItem('memories');
+    if (memoriesLocal) {
+      const mems = JSON.parse(memoriesLocal);
+      setMemories(mems);
+    }
+  }, []);
+
   const handleSubmitMemories = e => {
     e.preventDefault();
     const form = new FormData(e.target);
     const memories = Object.fromEntries(form);
+    localStorage.setItem('memories', JSON.stringify(memories));
     writeMyMemories(user?.uid, Object.values(memories));
     toast.success('Gửi các kỷ niệm thành công 🥰', { duration: 4000 });
     setTimeout(() => {
       navigate('/techies/memories');
-    }, 4000);
+    }, 3000);
   };
 
   const handleInteraction = () => {
