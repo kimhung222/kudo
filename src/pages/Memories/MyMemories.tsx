@@ -1,15 +1,20 @@
 import React, { useState } from 'react';
+import { useAuth } from '../../context/auth.provider';
+import { writeMyMemories } from '../../libs/database';
 import { classNames } from '../../utils';
+import { toast } from 'react-hot-toast';
 
 import './MyMemories.css';
 
 export const MyMemories: React.FC = () => {
+  const { user } = useAuth();
   const [isTouched, setIsTouched] = useState(false);
   const handleSubmitMemories = e => {
     e.preventDefault();
     const form = new FormData(e.target);
-    const data = Object.fromEntries(form);
-    console.log('handleSubmitMemories  👻  data', data);
+    const memories = Object.fromEntries(form);
+    writeMyMemories(user?.uid, Object.values(memories));
+    toast.success('Gửi các kỷ niệm thành công 🥰', { duration: 4000 });
   };
 
   const handleInteraction = () => {
@@ -30,9 +35,9 @@ export const MyMemories: React.FC = () => {
             </label>
             <textarea
               rows={6}
-              name="quest1"
+              name="memory1"
               minLength={20}
-              className="font-sans block w-full px-4 rounded-2 text-base text-gray-900 bg-white border-0 focus:ring-0"
+              className="block w-full px-4 rounded-2 bg-white border-0 focus:ring-0"
               placeholder="Sự kiện kể ra là bạn đau tim 😱🫀"
               required
             ></textarea>
@@ -43,11 +48,11 @@ export const MyMemories: React.FC = () => {
             </label>
             <textarea
               rows={6}
-              name="quest2"
+              name="memory2"
               placeholder="Điều gì làm bạn nhớ tới là cười *** 😂"
               required
               minLength={20}
-              className="font-sans block w-full px-4 rounded-2 text-base text-gray-900 bg-white border-0 focus:ring-0"
+              className="block w-full px-4 rounded-2 bg-white border-0 focus:ring-0"
             ></textarea>
           </div>
           <div className="px-4 py-2 rounded-b-lg">
@@ -56,9 +61,9 @@ export const MyMemories: React.FC = () => {
             </label>
             <textarea
               rows={6}
-              name="quest3"
+              name="memory3"
               placeholder="Nếu được ting ting +1 triệu về câu chuyện bạn thấy thú vị nhất khi làm ở DNSE, bạn sẽ kể gì? 😎 💸"
-              className="font-sans block w-full px-4 rounded-2 text-base text-gray-900 bg-white border-0 focus:ring-0"
+              className="block w-full px-4 rounded-2 bg-white border-0 focus:ring-0"
             ></textarea>
           </div>
         </div>

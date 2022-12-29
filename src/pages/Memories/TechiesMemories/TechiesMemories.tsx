@@ -1,5 +1,5 @@
-import React from 'react'
+import React from 'react';
 
-export const TechiesMemories: React.FC = (props) => {
-  return <div>Techies Memories</div>
-}
+export const TechiesMemories: React.FC = () => {
+  return <div>Techies Memories</div>;
+};

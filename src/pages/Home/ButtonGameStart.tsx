@@ -35,11 +35,7 @@ export const ButtonGameStart: React.FC<PropsWithChildren<Props>> = ({ children, 
 
   const pageSwitchTimeline = gsap
     .timeline({
-      paused: true,
-      onComplete: () => {
-        writeUserData(user?.uid || '');
-        navigate(routePaths.greeting);
-      }
+      paused: true
     })
     .set(overlayPath, {
       attr: { d: paths.step1.unfilled }
@@ -58,15 +54,18 @@ export const ButtonGameStart: React.FC<PropsWithChildren<Props>> = ({ children, 
       ease: 'power1',
       attr: { d: paths.step1.filled }
     })
-
     .set(overlayPath, {
       attr: { d: paths.step2.filled }
     })
-
     .to(overlayPath, {
       duration: 0.15,
       ease: 'sine.in',
-      attr: { d: paths.step2.inBetween }
+      attr: { d: paths.step2.inBetween },
+      // temporary write on complete here bcs the function writeUserData need a time to handle promise
+      onComplete: () => {
+        writeUserData(user?.uid || '');
+        navigate(routePaths.greeting);
+      }
     })
     .to(overlayPath, {
       duration: 1,
