@@ -1,8 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { users } from '../../constants';
 import { Combobox } from '@headlessui/react';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
 import { classNames } from '../../utils';
+import { onValue, ref } from 'firebase/database';
+import { realtimeDB } from '../../libs/firebase';
+import { AuthContext } from '../../context/auth.provider';
 
 export interface FormProps {
   userId: number;
@@ -34,6 +37,7 @@ export const KudoForm: React.FC<KudoFormProps> = ({
 }) => {
   const { userId: defaultUserId, content: defaultContent } = defaultValues;
   const [selectedUserId, setSelectedUserId] = useState(defaultUserId);
+  const [isParticipant, setIsParticipant] = useState(false);
   const selectedName = users.find(user => user.id === selectedUserId)?.name || '';
   const [content, setContent] = useState(defaultContent);
   const [query, setQuery] = useState('');
@@ -56,11 +60,23 @@ export const KudoForm: React.FC<KudoFormProps> = ({
 
   const isValid = selectedUserId >= 0 && !!content.trim();
 
+  const { user } = useContext(AuthContext);
+
   useEffect(() => {
     const { userId, content } = defaultValues;
     setSelectedUserId(userId);
     setContent(content);
   }, [JSON.stringify(defaultValues)]);
+
+  useEffect(() => {
+    const userRef = ref(realtimeDB, 'users');
+    onValue(userRef, snapshot => {
+      const meId = user?.uid || '';
+      const data = snapshot.val();
+      const isJoined = !!data?.[meId];
+      setIsParticipant(isJoined);
+    });
+  }, []);
 
   return (
     <div className="flex self-stretch w-full flex-col flex-shrink-0 h-[80vh] px-4">
@@ -69,7 +85,6 @@ export const KudoForm: React.FC<KudoFormProps> = ({
         as="div"
         value={selectedUserId}
         onChange={(id: number) => {
-          console.log(id);
           onSelectUser(id);
           setSelectedUserId(id);
         }}
@@ -168,7 +183,7 @@ export const KudoForm: React.FC<KudoFormProps> = ({
           Quay lại
         </button>
         <button
-          disabled={!isValid || isLoading}
+          disabled={!isValid || isLoading || !isParticipant}
           onClick={() =>
             onNext(
               {

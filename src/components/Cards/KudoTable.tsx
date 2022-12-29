@@ -83,7 +83,6 @@ export default function KudoTable() {
               {Object.keys(kudos).map((id, index) => {
                 const comments = kudos[id] || [];
                 const user = users.find(i => i.id === Number(id)) || { name: '', userId: -1 };
-                console.log(user.name, comments.length);
                 return (
                   <>
                     {comments.map((cmt, ids) => {
