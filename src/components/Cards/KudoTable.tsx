@@ -81,7 +81,7 @@ export default function KudoTable() {
                       return (
                         <tr key={`dd-${ids}`}>
                           <th
-                            className="max-w-30 border-t-0 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-1 text-left flex items-center truncate"
+                            className="max-w-40 border-t-0 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-1 text-left flex items-center truncate"
                             rowSpan={ids === 0 ? comments.length : 1}
                           >
                             <span className="font-bold text-blueGray-600 truncate">
