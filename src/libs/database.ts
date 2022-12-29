@@ -1,5 +1,6 @@
 import { ref, set, get, child, update, getDatabase } from 'firebase/database';
 import { realtimeDB } from './firebase';
+import { toast } from 'react-hot-toast';
 
 export function writeUserData(userId: string, assign?: number[]) {
   try {
@@ -26,6 +27,12 @@ export function updateGame(value: number) {
   set(ref(realtimeDB, 'currentGame'), value);
 }
 
-export function writeMyMemories(userId: string, memories) {
-  update(ref(realtimeDB, `users/${userId}/memories`), memories);
+export function writeMyMemories(userId = '', memories: any[]) {
+  try {
+    update(ref(realtimeDB), {
+      [`users/${userId}/memories`]: memories
+    });
+  } catch (error) {
+    toast.error('Oops, có lỗi xảy ra, chịu! 😝');
+  }
 }
