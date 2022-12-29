@@ -86,11 +86,11 @@ export default function CardTable() {
                       <tr key={ index }>
                         <th
                           className="max-w-30 border-t-0 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-1 text-left flex items-center truncate"
-                          rowSpan={ id === 0 ? 2 : 0 }
+                          rowSpan={ id === 0 ? kudos.length : 0 }
                         >
                           <span
                             className={
-                              "font-bold text-blueGray-600"
+                              "font-bold text-blueGray-600 truncate"
                             }
                           >
                           { id === 0 ? userId || 'user không xác định' : '' }
