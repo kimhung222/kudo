@@ -2,7 +2,7 @@ import { getDatabase, onValue, ref } from 'firebase/database';
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../../context/auth.provider';
 import { Memories, writeVoteMemories } from '../../../libs/database';
-import { unique } from '@techmely/utils';
+import { unique, isEmpty } from '@techmely/utils';
 import './TechiesMemories.css';
 
 export const TechiesMemories: React.FC = () => {
@@ -11,6 +11,7 @@ export const TechiesMemories: React.FC = () => {
   const [votes, setVotes] = useState<any>({});
   const myVotes = votes ? votes?.[user?.uid || ''] : [];
   const totalVotes = (userId: string) => {
+    if (isEmpty(votes)) return 0;
     const allVotes = Object.values(votes).flat() as string[];
     const count = allVotes.reduce((n, x) => {
       const matchCount = x === userId ? 1 : 0;
